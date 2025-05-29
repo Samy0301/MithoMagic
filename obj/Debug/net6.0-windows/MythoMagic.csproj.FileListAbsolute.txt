@@ -1,0 +1,17 @@
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.csproj.AssemblyReference.cache
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form1.resources
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.csproj.GenerateResource.cache
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.AssemblyInfoInputs.cache
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.AssemblyInfo.cs
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.csproj.CoreCompileInputs.cache
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\bin\Debug\net6.0-windows\MythoMagic.exe
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\bin\Debug\net6.0-windows\MythoMagic.deps.json
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\bin\Debug\net6.0-windows\MythoMagic.runtimeconfig.json
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\bin\Debug\net6.0-windows\MythoMagic.dll
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\bin\Debug\net6.0-windows\MythoMagic.pdb
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.dll
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\refint\MythoMagic.dll
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.pdb
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.genruntimeconfig.cache
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\ref\MythoMagic.dll
