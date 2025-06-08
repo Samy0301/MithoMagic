@@ -17,3 +17,4 @@ C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\ref\MythoMagic.dll
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form_Inicio.resources
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Properties.Resources.resources
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form_Opciones.resources
