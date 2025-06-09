@@ -148,6 +148,18 @@ namespace MythoMagic
 
         protected override void OnPaint(PaintEventArgs e)
         {
+
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelLab_Paint(object sender, PaintEventArgs e)
+        {
+
             base.OnPaint(e);
             Graphics g = e.Graphics;
 
@@ -170,13 +182,6 @@ namespace MythoMagic
                 }
             }
         }
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }
    

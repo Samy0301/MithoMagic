@@ -84,6 +84,7 @@
             this.Controls.Add(this.GameName);
             this.Name = "Form_Inicio";
             this.Text = "Form_Inicio";
+            this.Load += new System.EventHandler(this.Form_Inicio_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

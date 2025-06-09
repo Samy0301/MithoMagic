@@ -19,7 +19,7 @@ namespace MythoMagic
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            Form1 juego = new Form1();
+            Form_Opciones juego = new Form_Opciones();
             juego.Show();
             this.Hide();
         }
@@ -27,6 +27,11 @@ namespace MythoMagic
         private void buttonOut_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void Form_Inicio_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
