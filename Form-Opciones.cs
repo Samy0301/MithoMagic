@@ -13,13 +13,7 @@ namespace MythoMagic
 {
     public partial class Form_Opciones : Form
     {
-        List<ClassFichas> todaslasfichas;
-        List<ClassFichas> fichasJugador1 = new List<ClassFichas>();
-        List<ClassFichas> fichasJugador2 = new List<ClassFichas>();
-        string jugador1Name;
-        string jugador2Name;
-        int jugadorActual = 1;
-        ToolTip tooltip = new ToolTip();
+       
 
         public Form_Opciones()
         {
@@ -30,26 +24,14 @@ namespace MythoMagic
        
         private void Form_Opciones_Load(object sender, EventArgs e)
         {
-            CargarFichas();
-            MostrarFichas();
+            
         }
-
-        private void CargarFichas()
-        {
-            todaslasfichas = new List<ClassFichas>();
-
-
-        }
-
-        private void MostrarFichas()
-        {
-
-        }
-
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            Form_Opciones2 juego = new Form_Opciones2();
+            juego.Show();
+            this.Hide();
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -59,7 +41,40 @@ namespace MythoMagic
 
         private void textBoxPlayer_TextChanged(object sender, EventArgs e)
         {
+            Conf_Jugador.jugador1.Nombre = textBoxPlayer.Text;
+        }
+       
+        private void buttonAtenea_Click(object sender, EventArgs e)
+        {
+            Conf_Jugador.jugador1.Fichas.Add(new AteneaFicha
+            {
+                Nombre = "Atenea",
+                Velocidad = 3,
+                CoolDownMax = 3,
+                Posicion = new Point(0, 0)
+            });
+        }
 
+        private void buttonHermes_Click(object sender, EventArgs e)
+        {
+            Conf_Jugador.jugador1.Fichas.Add(new HermesFicha
+            {
+                Nombre = "Hermes",
+                Velocidad = 3,
+                CoolDownMax = 4,
+                Posicion = new Point(0, 0)
+            });
+        }
+
+        private void buttonPoseidon_Click(object sender, EventArgs e)
+        {
+            Conf_Jugador.jugador1.Fichas.Add(new PoseidonFicha
+            {
+                Nombre = "Poseidon",
+                Velocidad = 2,
+                CoolDownMax = 4,
+                Posicion = new Point(0, 0)
+            });
         }
     }
 }

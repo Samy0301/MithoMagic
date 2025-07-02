@@ -30,9 +30,12 @@
         {
             this.panelLab = new System.Windows.Forms.Panel();
             this.panelData = new System.Windows.Forms.Panel();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.listBoxFichas = new System.Windows.Forms.ListBox();
-            this.listBoxFichaFinal = new System.Windows.Forms.ListBox();
+            this.comboFichas = new System.Windows.Forms.ComboBox();
+            this.btnUsarPoder = new System.Windows.Forms.Button();
+            this.listBoxSalida = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtInfoJugador = new System.Windows.Forms.TextBox();
             this.panelLab.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +47,6 @@
             this.panelLab.Name = "panelLab";
             this.panelLab.Size = new System.Drawing.Size(501, 456);
             this.panelLab.TabIndex = 0;
-            this.panelLab.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLab_Paint);
             // 
             // panelData
             // 
@@ -54,46 +56,75 @@
             this.panelData.Size = new System.Drawing.Size(191, 456);
             this.panelData.TabIndex = 0;
             // 
-            // textBoxName
+            // comboFichas
             // 
-            this.textBoxName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxName.Location = new System.Drawing.Point(538, 24);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(125, 27);
-            this.textBoxName.TabIndex = 1;
+            this.comboFichas.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.comboFichas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboFichas.FormattingEnabled = true;
+            this.comboFichas.Location = new System.Drawing.Point(522, 97);
+            this.comboFichas.Name = "comboFichas";
+            this.comboFichas.Size = new System.Drawing.Size(151, 28);
+            this.comboFichas.TabIndex = 2;
             // 
-            // listBoxFichas
+            // btnUsarPoder
             // 
-            this.listBoxFichas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listBoxFichas.FormattingEnabled = true;
-            this.listBoxFichas.ItemHeight = 20;
-            this.listBoxFichas.Location = new System.Drawing.Point(526, 69);
-            this.listBoxFichas.Name = "listBoxFichas";
-            this.listBoxFichas.Size = new System.Drawing.Size(150, 102);
-            this.listBoxFichas.TabIndex = 2;
+            this.btnUsarPoder.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.btnUsarPoder.Location = new System.Drawing.Point(550, 151);
+            this.btnUsarPoder.Name = "btnUsarPoder";
+            this.btnUsarPoder.Size = new System.Drawing.Size(94, 29);
+            this.btnUsarPoder.TabIndex = 3;
+            this.btnUsarPoder.Text = "Active";
+            this.btnUsarPoder.UseVisualStyleBackColor = false;
             // 
-            // listBoxFichaFinal
+            // listBoxSalida
             // 
-            this.listBoxFichaFinal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.listBoxFichaFinal.FormattingEnabled = true;
-            this.listBoxFichaFinal.ItemHeight = 20;
-            this.listBoxFichaFinal.Location = new System.Drawing.Point(526, 255);
-            this.listBoxFichaFinal.Name = "listBoxFichaFinal";
-            this.listBoxFichaFinal.Size = new System.Drawing.Size(150, 102);
-            this.listBoxFichaFinal.TabIndex = 3;
+            this.listBoxSalida.BackColor = System.Drawing.Color.LightGoldenrodYellow;
+            this.listBoxSalida.FormattingEnabled = true;
+            this.listBoxSalida.ItemHeight = 20;
+            this.listBoxSalida.Location = new System.Drawing.Point(528, 246);
+            this.listBoxSalida.Name = "listBoxSalida";
+            this.listBoxSalida.Size = new System.Drawing.Size(150, 104);
+            this.listBoxSalida.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(569, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 20);
+            this.label1.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(50, 20);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "label2";
+            // 
+            // txtInfoJugador
+            // 
+            this.txtInfoJugador.Location = new System.Drawing.Point(522, 23);
+            this.txtInfoJugador.Name = "txtInfoJugador";
+            this.txtInfoJugador.Size = new System.Drawing.Size(151, 27);
+            this.txtInfoJugador.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.ClientSize = new System.Drawing.Size(701, 457);
-            this.Controls.Add(this.listBoxFichaFinal);
-            this.Controls.Add(this.listBoxFichas);
-            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.txtInfoJugador);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.listBoxSalida);
+            this.Controls.Add(this.btnUsarPoder);
+            this.Controls.Add(this.comboFichas);
             this.Controls.Add(this.panelLab);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.panelLab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -104,8 +135,10 @@
 
         private Panel panelLab;
         private Panel panelData;
-        private TextBox textBoxName;
-        private ListBox listBoxFichas;
-        private ListBox listBoxFichaFinal;
+        
+        private ListBox listBoxSalida;
+        private Label label1;
+        private Label label2;
+        private TextBox txtInfoJugador;
     }
 }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MythoMagic.Clases
 {
-    internal class ClassPlayer
+    public class Jugador
     {
+        public string Nombre { get; set; }
+        public List<Fichas> Fichas { get; set; } = new List<Fichas>();
     }
 }
