@@ -18,3 +18,4 @@ C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\ref\MythoM
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form_Inicio.resources
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Properties.Resources.resources
 C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form_Opciones.resources
+C:\Users\Ecohero\Desktop\Projects\MythoMagic\obj\Debug\net6.0-windows\MythoMagic.Form_Opciones2.resources

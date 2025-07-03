@@ -93,7 +93,7 @@ namespace MythoMagic.Clases
             }
 
             Casillas[0, 0] = TipoCasilla.Camino;
-            if (Casillas[1, 0] != TipoCasilla.Camino && Casillas[0, 1] != TipoCasilla.Camino) Casillas[1, 0] = TipoCasilla.Camino];
+            if (Casillas[1, 0] != TipoCasilla.Camino && Casillas[0, 1] != TipoCasilla.Camino) Casillas[1, 0] = TipoCasilla.Camino;
             if (!HayCamino(0, 0, Fila - 1, Columna - 1)) ConectarEsquinas();
             ColocarTrampas();
         }

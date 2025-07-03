@@ -27,4 +27,72 @@ namespace MythoMagic.Clases
         }
     }
 
+    public class AteneaFicha : Fichas
+    {
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            tablero.Trampas[Posicion.Y, Posicion.X] = new TrampParalizar();
+            base.UsarHabilidad(tablero);
+        }
+    }
+
+    public class PoseidonFicha : Fichas
+    {
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            Velocidad += 2; 
+            base.UsarHabilidad(tablero);
+        }
+    }
+
+    public class HermesFicha : Fichas
+    {
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            Velocidad *= 3;
+            base.UsarHabilidad(tablero);
+        }
+    }
+
+    public class AfroditaFicha : Fichas
+    {
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            Point frente = new Point(Posicion.X + 1, Posicion.Y);
+            if (frente.X < tablero.Columna && tablero.Trampas[frente.Y, frente.X] != null)
+            {
+                tablero.Trampas[frente.Y, frente.X] = null;
+            }
+            base.UsarHabilidad(tablero);
+        }
+    }
+
+    public class AresFicha : Fichas
+    {
+        public bool InmuneEsteTurno { get; private set; }
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            InmuneEsteTurno = true;
+            base.UsarHabilidad(tablero);
+        }
+        public void ConsumirInmunidad()
+        {
+            InmuneEsteTurno=false;
+        }
+    }
+
+    public class ApoloFicha : Fichas
+    {
+        public bool PuedeAtravesarParedes { get; private set; }
+        public override void UsarHabilidad(Tablero tablero)
+        {
+            PuedeAtravesarParedes = true;
+            base.UsarHabilidad(tablero);
+        }
+
+        public void DesactivarAtravesar()
+        {
+            PuedeAtravesarParedes = false;
+        }
+    }
 }  
