@@ -76,7 +76,7 @@
             this.labelAtenea.Name = "labelAtenea";
             this.labelAtenea.Size = new System.Drawing.Size(121, 117);
             this.labelAtenea.TabIndex = 5;
-            this.labelAtenea.Text = "Speed: 3\r\nCoolDown: 3\r\nPower: Turn box into a paralyzing trap";
+            this.labelAtenea.Text = "Speed: 5 \r\nCoolDown: 3\r\nPower: Turn box into a paralyzing trap";
             this.labelAtenea.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelPoseidon
@@ -85,7 +85,7 @@
             this.labelPoseidon.Name = "labelPoseidon";
             this.labelPoseidon.Size = new System.Drawing.Size(118, 117);
             this.labelPoseidon.TabIndex = 6;
-            this.labelPoseidon.Text = "Speed: 2\r\nCoolDown: 4\r\nPower: Add 3 to the speed ";
+            this.labelPoseidon.Text = "Speed: 4 \r\nCoolDown: 4\r\nPower: Add 3 to the speed ";
             this.labelPoseidon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelHermes
@@ -94,7 +94,7 @@
             this.labelHermes.Name = "labelHermes";
             this.labelHermes.Size = new System.Drawing.Size(120, 117);
             this.labelHermes.TabIndex = 7;
-            this.labelHermes.Text = "Speed: 3\r\nCoolDown: 4\r\nPower: Multiply the speed by 2";
+            this.labelHermes.Text = "Speed: 5 \r\nCoolDown: 4\r\nPower: Multiply the speed by 2";
             this.labelHermes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonPoseidon
@@ -106,7 +106,6 @@
             this.buttonPoseidon.Size = new System.Drawing.Size(146, 139);
             this.buttonPoseidon.TabIndex = 9;
             this.buttonPoseidon.UseVisualStyleBackColor = true;
-            this.buttonPoseidon.Click += new System.EventHandler(this.buttonPoseidon_Click);
             // 
             // buttonHermes
             // 
@@ -117,7 +116,6 @@
             this.buttonHermes.Size = new System.Drawing.Size(146, 139);
             this.buttonHermes.TabIndex = 10;
             this.buttonHermes.UseVisualStyleBackColor = true;
-            this.buttonHermes.Click += new System.EventHandler(this.buttonHermes_Click);
             // 
             // buttonAtenea
             // 

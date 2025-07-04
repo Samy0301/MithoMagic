@@ -15,7 +15,9 @@ namespace MythoMagic.Clases
         public Point Posicion { get; set; }
         public Jugador Dueño { get; set; }
         public bool PuedeUsarHabilidad => CoolDownActual == 0;
+        public string Poder { get; set; }
 
+        public virtual Color ColorFicha => Color.Gray;
         public virtual void UsarHabilidad(Tablero tablero)
         {
             CoolDownActual = CoolDownMax;
@@ -29,6 +31,7 @@ namespace MythoMagic.Clases
 
     public class AteneaFicha : Fichas
     {
+        public override Color ColorFicha => Color.MediumPurple;
         public override void UsarHabilidad(Tablero tablero)
         {
             tablero.Trampas[Posicion.Y, Posicion.X] = new TrampParalizar();
@@ -38,6 +41,7 @@ namespace MythoMagic.Clases
 
     public class PoseidonFicha : Fichas
     {
+        public override Color ColorFicha => Color.Teal;
         public override void UsarHabilidad(Tablero tablero)
         {
             Velocidad += 2; 
@@ -47,6 +51,7 @@ namespace MythoMagic.Clases
 
     public class HermesFicha : Fichas
     {
+        public override Color ColorFicha => Color.DodgerBlue;
         public override void UsarHabilidad(Tablero tablero)
         {
             Velocidad *= 3;
@@ -56,6 +61,7 @@ namespace MythoMagic.Clases
 
     public class AfroditaFicha : Fichas
     {
+        public override Color ColorFicha => Color.HotPink;
         public override void UsarHabilidad(Tablero tablero)
         {
             Point frente = new Point(Posicion.X + 1, Posicion.Y);
@@ -69,6 +75,7 @@ namespace MythoMagic.Clases
 
     public class AresFicha : Fichas
     {
+        public override Color ColorFicha => Color.Crimson;
         public bool InmuneEsteTurno { get; private set; }
         public override void UsarHabilidad(Tablero tablero)
         {
@@ -83,6 +90,7 @@ namespace MythoMagic.Clases
 
     public class ApoloFicha : Fichas
     {
+        public override Color ColorFicha => Color.Gold;
         public bool PuedeAtravesarParedes { get; private set; }
         public override void UsarHabilidad(Tablero tablero)
         {

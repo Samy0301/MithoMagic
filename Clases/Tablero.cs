@@ -23,9 +23,11 @@ namespace MythoMagic.Clases
             GenerarLaberinto();
         }
 
-        public bool EsValido(Point p) => p.X >= 0 && p.Y >= 0 & p.X < Columna && p.Y < Fila && Casillas[p.Y, p.X] == TipoCasilla.Camino;
+        public bool EsValido(Point p) =>
+         p.X >= 0 && p.Y >= 0 && p.X < Columna && p.Y < Fila &&
+         Casillas[p.Y, p.X] == TipoCasilla.Camino;
 
-        public void ActivarTrampa(Point p,Fichas ficha)
+        public void ActivarTrampa(Point p, Fichas ficha)
         {
             Trampa t = Trampas[p.Y, p.X];
             if (t != null)
@@ -37,83 +39,97 @@ namespace MythoMagic.Clases
 
         private void GenerarLaberinto()
         {
-            for(int y = 0; y < Fila; y++)
-            {
-                for(int x = 0; x < Columna; x++)
-                {
+            int alto = Fila % 2 == 0 ? Fila - 1 : Fila;
+            int ancho = Columna % 2 == 0 ? Columna - 1 : Columna;
+
+            Casillas = new TipoCasilla[Fila, Columna];
+            Trampas = new Trampa[Fila, Columna];
+            bool[,] visitado = new bool[Fila, Columna];
+
+            // Todo es pared al inicio
+            for (int y = 0; y < Fila; y++)
+                for (int x = 0; x < Columna; x++)
                     Casillas[y, x] = TipoCasilla.Pared;
-                }
-            }
 
-            List<(int x, int y)> frontera = new();
-            void AgregarFrontera(int x, int y)
+            // DFS desde (0,0)
+            Stack<Point> pila = new Stack<Point>();
+            Point inicio = new Point(0, 0);
+            pila.Push(inicio);
+            visitado[inicio.Y, inicio.X] = true;
+            Casillas[inicio.Y, inicio.X] = TipoCasilla.Camino;
+
+            int[] dx = { -1, 1, 0, 0 };
+            int[] dy = { 0, 0, -1, 1 };
+
+            while (pila.Count > 0)
             {
-                if (x > 0 && y > 0 && x < Columna - 1 && y < Fila - 1 && Casillas[y, x] == TipoCasilla.Pared)
+                Point actual = pila.Pop();
+
+                var vecinos = new List<Point>();
+                foreach (var (ix, iy) in dx.Zip(dy))
                 {
-                    Casillas[y, x] = (TipoCasilla)2;
-                    frontera.Add((x, y));
+                    int nx = actual.X + ix * 2;
+                    int ny = actual.Y + iy * 2;
+
+                    if (nx >= 0 && ny >= 0 && nx < ancho && ny < alto && !visitado[ny, nx])
+                        vecinos.Add(new Point(nx, ny));
                 }
-            }
 
-            int startX = 1, startY = 1;
-            Casillas[startY, startX] = TipoCasilla.Camino;
-            AgregarFrontera(startX + 2, startY);
-            AgregarFrontera(startX - 2, startY);
-            AgregarFrontera(startX, startY + 2);
-            AgregarFrontera(startX, startY - 2);
+                vecinos = vecinos.OrderBy(v => rand.Next()).ToList();
 
-            while (frontera.Count > 0)
-            {
-                var idx = rand.Next(frontera.Count);
-                var (x, y) = frontera[idx];
-                frontera.RemoveAt(idx);
-
-                var vecinos = new List<(int dx, int dy)> 
+                foreach (var vecino in vecinos)
                 {
-                      (-2, 0), (2, 0), (0, -2), (0, 2)
-                };
+                    if (visitado[vecino.Y, vecino.X]) continue;
 
-                var vecinosValidos = vecinos
-                    .Select(d => (x + d.dx, y + d.dy))
-                    .Where(p => p.Item1 > 0 && p.Item2 > 0 && p.Item1 < Columna - 1 && p.Item2 < Fila - 1 && Casillas[p.Item2, p.Item1] == TipoCasilla.Camino)
-                    .ToList();
+                    int wallX = (actual.X + vecino.X) / 2;
+                    int wallY = (actual.Y + vecino.Y) / 2;
 
-                if (vecinosValidos.Count > 0)
-                {
-                    var (nx, ny) = vecinosValidos[rand.Next(vecinosValidos.Count)];
+                    Casillas[wallY, wallX] = TipoCasilla.Camino;
+                    Casillas[vecino.Y, vecino.X] = TipoCasilla.Camino;
 
-                    Casillas[y, x] = TipoCasilla.Camino;
-                    Casillas[(y + ny) / 2, (x + nx) / 2] = TipoCasilla.Camino;
-
-                    AgregarFrontera(x + 2, y);
-                    AgregarFrontera(x - 2, y);
-                    AgregarFrontera(x, y + 2);
-                    AgregarFrontera(x, y - 2);
+                    visitado[vecino.Y, vecino.X] = true;
+                    pila.Push(vecino);
                 }
             }
 
             Casillas[0, 0] = TipoCasilla.Camino;
-            if (Casillas[1, 0] != TipoCasilla.Camino && Casillas[0, 1] != TipoCasilla.Camino) Casillas[1, 0] = TipoCasilla.Camino;
-            if (!HayCamino(0, 0, Fila - 1, Columna - 1)) ConectarEsquinas();
+            Casillas[Fila - 1, Columna - 1] = TipoCasilla.Camino;
+
+            // Garantiza que haya conexión NATURAL, no directa
+            if (!HayCamino(0, 0, Columna - 1, Fila - 1))
+                ReintentarHastaConectar();
+
             ColocarTrampas();
+            
+        }
+
+        private void ReintentarHastaConectar()
+        {
+            int intentos = 0;
+            do
+            {
+                GenerarLaberinto();
+                intentos++;
+            } while (!HayCamino(0, 0, Columna - 1, Fila - 1) && intentos < 20);
+
+            if (intentos >= 20)
+                MessageBox.Show("No se pudo generar un laberinto conectando entrada y salida después de 20 intentos.");
         }
 
         private void ColocarTrampas()
         {
-            int cantidad = 10;
-            int colocadas = 0;
+            int cantidad = 15, colocadas = 0;
             while (colocadas < cantidad)
             {
                 int x = rand.Next(Columna);
                 int y = rand.Next(Fila);
-
                 if (Casillas[y, x] == TipoCasilla.Camino && Trampas[y, x] == null)
                 {
                     Trampa trampa = rand.Next(3) switch
                     {
                         0 => new TrampRalentizar(),
                         1 => new TrampRetroceso(),
-                        _ => new TrampParalizar(),
+                        _ => new TrampParalizar()
                     };
                     Trampas[y, x] = trampa;
                     colocadas++;
@@ -124,8 +140,8 @@ namespace MythoMagic.Clases
         private bool HayCamino(int sx, int sy, int ex, int ey)
         {
             bool[,] visitado = new bool[Fila, Columna];
-            Queue<(int x, int y)> cola = new();
-            cola.Enqueue((sx, sy));
+            Queue<Point> cola = new();
+            cola.Enqueue(new Point(sx, sy));
             visitado[sy, sx] = true;
 
             int[] dx = { -1, 1, 0, 0 };
@@ -133,18 +149,17 @@ namespace MythoMagic.Clases
 
             while (cola.Count > 0)
             {
-                var (x, y) = cola.Dequeue();
-                if (x == ex && y == ey)
-                    return true;
+                Point p = cola.Dequeue();
+                if (p.X == ex && p.Y == ey) return true;
 
                 for (int i = 0; i < 4; i++)
                 {
-                    int nx = x + dx[i];
-                    int ny = y + dy[i];
-                    if (nx >= 0 && ny >= 0 && nx < Columna && ny < Fila && !visitado[ny, nx] && Casillas[ny, nx] == TipoCasilla.Camino)
+                    int nx = p.X + dx[i], ny = p.Y + dy[i];
+                    if (nx >= 0 && ny >= 0 && nx < Columna && ny < Fila &&
+                        !visitado[ny, nx] && Casillas[ny, nx] == TipoCasilla.Camino)
                     {
                         visitado[ny, nx] = true;
-                        cola.Enqueue((nx, ny));
+                        cola.Enqueue(new Point(nx, ny));
                     }
                 }
             }
@@ -152,20 +167,7 @@ namespace MythoMagic.Clases
             return false;
         }
 
-        private void ConectarEsquinas()
-        {
-            int x = Columna - 1;
-            int y = Fila - 1;
-
-            while (x > 0 || y > 0)
-            {
-                Casillas[y, x] = TipoCasilla.Camino;
-                if (x > 0 && Casillas[y, x - 1] == TipoCasilla.Camino) x--;
-                else if (y > 0 && Casillas[y - 1, x] == TipoCasilla.Camino) y--;
-                else if (x > 0) x--;
-                else y--;
-            }
-        }
+        
     }
 
     public enum TipoCasilla

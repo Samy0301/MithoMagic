@@ -77,7 +77,7 @@
             this.labelAfrodita.Name = "labelAfrodita";
             this.labelAfrodita.Size = new System.Drawing.Size(124, 117);
             this.labelAfrodita.TabIndex = 8;
-            this.labelAfrodita.Text = "Speed: 2\r\nCoolDown: 4\r\nPower: Remove the trap in front ";
+            this.labelAfrodita.Text = "Speed: 4\r\nCoolDown: 4\r\nPower: Remove the trap in front ";
             this.labelAfrodita.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelAres
@@ -86,7 +86,7 @@
             this.labelAres.Name = "labelAres";
             this.labelAres.Size = new System.Drawing.Size(119, 117);
             this.labelAres.TabIndex = 9;
-            this.labelAres.Text = "Speed: 3\r\nCoolDown: 4\r\nPower: Immune to traps";
+            this.labelAres.Text = "Speed: 5\r\nCoolDown: 4\r\nPower: Immune to traps";
             this.labelAres.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelPoseidon
@@ -96,7 +96,7 @@
             this.labelPoseidon.Name = "labelPoseidon";
             this.labelPoseidon.Size = new System.Drawing.Size(119, 117);
             this.labelPoseidon.TabIndex = 10;
-            this.labelPoseidon.Text = "Speed: 2\r\nCoolDown: 3\r\nPower: Go through walls ";
+            this.labelPoseidon.Text = "Speed: 4 \r\nCoolDown: 3\r\nPower: Go through walls ";
             this.labelPoseidon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonAfrodita

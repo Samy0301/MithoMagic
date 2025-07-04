@@ -8,6 +8,7 @@ namespace MythoMagic.Clases
 {
     public abstract class Trampa
     {
+        public virtual Color color => Color.Gray;
         public abstract void Activar(Fichas ficha);
     }
 
@@ -17,6 +18,8 @@ namespace MythoMagic.Clases
         {
             ficha.Velocidad = Math.Max(1, ficha.Velocidad - 1);
         }
+
+        public override Color color => Color.BlueViolet;
     }
 
     public class TrampRetroceso : Trampa
@@ -25,6 +28,8 @@ namespace MythoMagic.Clases
         {
             ficha.Posicion = new Point(0, 0);
         }
+
+        public override Color color => Color.DarkRed;
     }
 
     public class TrampParalizar : Trampa
@@ -33,5 +38,7 @@ namespace MythoMagic.Clases
         {
             ficha.CoolDownActual = ficha.CoolDownMax;
         }
+
+        public override Color color => Color.DarkSlateBlue;
     }
 }
