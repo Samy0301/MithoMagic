@@ -10,17 +10,18 @@ namespace MythoMagic
     {
         private const int filas = 29;
         private const int columnas = 29;
-        private const int tamañoCelda = 20;
+        private const int tamañoCelda = 25;
 
         private Tablero tablero;
         private Juego juego;
         private Fichas fichaSeleccionada;
-        private bool poderActivado = false;
+        private int movimientosRestantes;
 
         private Button btnUsarPoder;
         private ComboBox comboFichas;
         private TextBox txtInfoJugador;
         private ListBox listBoxSalidas;
+
 
         public Form1()
         {
@@ -38,13 +39,14 @@ namespace MythoMagic
             juego.Jugadores.Add(Conf_Jugador.jugador1);
             juego.Jugadores.Add(Conf_Jugador.jugador2);
             fichaSeleccionada = juego.JugadorActual.Fichas[0];
+            movimientosRestantes = fichaSeleccionada?.Velocidad ?? 0;
         }
 
         private void InicializarUI()
         {
             btnUsarPoder = new Button
             {
-                Text = "Usar poder",
+                Text = "Use Power",
                 Location = new Point(columnas * tamañoCelda + 20, 20),
                 Size = new Size(200, 30)
             };
@@ -66,14 +68,13 @@ namespace MythoMagic
                 Size = new Size(200, 100),
                 Multiline = true,
                 ReadOnly = true,
-                BorderStyle = BorderStyle.None,
                 BackColor = this.BackColor
             };
             Controls.Add(txtInfoJugador);
 
             listBoxSalidas = new ListBox
             {
-                Location = new Point(columnas * tamañoCelda + 20, 170),
+                Location = new Point(columnas * tamañoCelda + 20, 220),
                 Size = new Size(200, 300)
             };
             Controls.Add(listBoxSalidas);
@@ -81,23 +82,11 @@ namespace MythoMagic
             ActualizarUI();
         }
 
-        private void ComboFichas_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre == comboFichas.SelectedItem.ToString());
-            txtInfoJugador.Text = $"Turno: {juego.JugadorActual.Nombre}\r\n";
-
-            if (fichaSeleccionada != null)
-            {
-                txtInfoJugador.Text += $"Cooldown: {fichaSeleccionada.CoolDownActual}\r\n";
-                txtInfoJugador.Text += $"Speed: {fichaSeleccionada.Velocidad}\r\n";
-                txtInfoJugador.Text += $"Power: {fichaSeleccionada.Poder}";
-            }
-            Invalidate();
-        }
-
-
         private void ActualizarUI()
         {
+            comboFichas.SelectedIndexChanged -= ComboFichas_SelectedIndexChanged;
+            string seleccionAnterior = comboFichas.SelectedItem?.ToString();
+
             comboFichas.Items.Clear();
             foreach (var ficha in juego.JugadorActual.Fichas)
             {
@@ -107,44 +96,118 @@ namespace MythoMagic
 
             if (comboFichas.Items.Count > 0)
             {
-                comboFichas.SelectedIndex = 0;
-                comboFichas.Refresh();
-                string select = comboFichas.Items[0].ToString();
-                fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre ==select);
+                int index = comboFichas.Items.IndexOf(seleccionAnterior);
+                comboFichas.SelectedIndex = index >= 0 ? index : 0;
+                fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre == comboFichas.SelectedItem.ToString());
+                movimientosRestantes = fichaSeleccionada?.Velocidad ?? 0;
             }
             else
             {
                 fichaSeleccionada = null;
-            } 
+            }
+            comboFichas.SelectedIndexChanged += ComboFichas_SelectedIndexChanged;
 
             txtInfoJugador.Text = $"Turno: {juego.JugadorActual.Nombre}\r\n";
             if (fichaSeleccionada != null)
                 txtInfoJugador.Text += $"Cooldown: {fichaSeleccionada.CoolDownActual}\r\nSpeed: {fichaSeleccionada.Velocidad}\r\nPower: {fichaSeleccionada.Poder}";
 
-            poderActivado = false;
             Invalidate();
         }
 
+        private void ComboFichas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre == comboFichas.SelectedItem.ToString());
+            movimientosRestantes = fichaSeleccionada?.Velocidad ?? 0;
+            ActualizarUI();
+        }
        
         private void BtnUsarPoder_Click(object sender, EventArgs e)
         {
             if (fichaSeleccionada != null && fichaSeleccionada.PuedeUsarHabilidad)
             {
                 fichaSeleccionada.UsarHabilidad(tablero);
-                poderActivado = true;
+                movimientosRestantes = fichaSeleccionada.Velocidad;
                 Invalidate();
             }
             else
             {
-                MessageBox.Show("El poder aún está en enfriamiento o no hay ficha seleccionada.");
+                MessageBox.Show("El poder aún está en enfriamiento");
             }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (fichaSeleccionada == null || movimientosRestantes <= 0)
+                return base.ProcessCmdKey(ref msg, keyData);
+
+            int dx = 0, dy = 0;
+            switch (keyData)
+            {
+                case Keys.Up:dy = -1; break;
+                case Keys.Down: dy = 1; break;
+                case Keys.Left: dx = -1; break;
+                case Keys.Right: dx = 1; break;
+                default: return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            Point nuevaPos = new Point(fichaSeleccionada.Posicion.X + dx, fichaSeleccionada.Posicion.Y + dy);
+            bool puedeAtravesar = fichaSeleccionada is ApoloFicha ap && ap.PuedeAtravesarParedes;
+
+            if (!tablero.EsValido(nuevaPos) && !puedeAtravesar)
+                return true;
+
+            fichaSeleccionada.Posicion = nuevaPos;
+
+            bool esInmune = fichaSeleccionada is AresFicha ar && ar.InmuneEsteTurno;
+
+            if (!esInmune)
+            {
+                tablero.ActivarTrampa(nuevaPos, fichaSeleccionada);
+
+                if (fichaSeleccionada.Velocidad <= 0)
+                {
+                    movimientosRestantes = 0;
+
+                    if (fichaSeleccionada is ApoloFicha apf) apf.DesactivarAtravesar();
+                    if (fichaSeleccionada is AresFicha af) af.ConsumirInmunidad();
+
+                    juego.NextTurno();
+                    ActualizarUI();
+                    Invalidate();
+                }
+            }
+               
+            movimientosRestantes--;
+
+            if (fichaSeleccionada.Posicion == new Point(columnas - 1, filas - 1))
+                listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");
+
+            bool todasSalieron = juego.JugadorActual.Fichas
+                .TrueForAll(f => f.Posicion == new Point(columnas - 1, filas - 1));
+
+            if (todasSalieron)
+            {
+                MessageBox.Show($"Victory for {juego.JugadorActual.Nombre}");
+                return true;
+            }
+
+            if (movimientosRestantes == 0)
+            {
+                if (fichaSeleccionada is ApoloFicha apf) apf.DesactivarAtravesar();
+                if (fichaSeleccionada is AresFicha af) af.ConsumirInmunidad();
+
+                juego.NextTurno();
+                ActualizarUI();
+            }
+
+            Invalidate();
+            return true;
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
-            // === Dibuja el fondo del tablero ===
             for (int y = 0; y < filas; y++)
             {
                 for (int x = 0; x < columnas; x++)
@@ -165,7 +228,6 @@ namespace MythoMagic
                 }
             }
 
-            // === Dibuja las fichas ===
             foreach (var jugador in juego.Jugadores)
             {
                 foreach (var ficha in jugador.Fichas)
@@ -177,7 +239,7 @@ namespace MythoMagic
 
                     if (ficha == fichaSeleccionada)
                     {
-                        // Dibujar ficha más chica con borde amarillo
+                        
                         g.FillEllipse(brush, ficha.Posicion.X * tamañoCelda + 2, ficha.Posicion.Y * tamañoCelda + 2, tamañoCelda - 4, tamañoCelda - 4);
                         g.DrawEllipse(Pens.Yellow, ficha.Posicion.X * tamañoCelda + 1, ficha.Posicion.Y * tamañoCelda + 1, tamañoCelda - 2, tamañoCelda - 2);
                     }
@@ -188,7 +250,6 @@ namespace MythoMagic
                 }
             }
 
-            // === Dibuja la grilla encima ===
             using Pen pen = new Pen(Color.Gray, 1);
             for (int y = 0; y <= filas; y++)
             {
@@ -200,50 +261,6 @@ namespace MythoMagic
             {
                 int xPos = x * tamañoCelda;
                 g.DrawLine(pen, xPos, 0, xPos, filas * tamañoCelda - 1);
-            }
-        }
-
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            if (fichaSeleccionada == null) return;
-
-            int x = e.X / tamañoCelda;
-            int y = e.Y / tamañoCelda;
-            Point destino = new Point(x, y);
-
-            bool puedeAtravesar = fichaSeleccionada is ApoloFicha ap && ap.PuedeAtravesarParedes;
-
-            if (!tablero.EsValido(destino) && !puedeAtravesar)
-                return;
-
-            int distancia = Math.Abs(destino.X - fichaSeleccionada.Posicion.X) + Math.Abs(destino.Y - fichaSeleccionada.Posicion.Y);
-            if (distancia <= fichaSeleccionada.Velocidad)
-            {
-                fichaSeleccionada.Posicion = destino;
-
-                bool esInmune = fichaSeleccionada is AresFicha ares && ares.InmuneEsteTurno;
-
-                if (!esInmune)
-                    tablero.ActivarTrampa(destino, fichaSeleccionada);
-
-                if (fichaSeleccionada is AresFicha af) af.ConsumirInmunidad();
-                if (fichaSeleccionada is ApoloFicha apf) apf.DesactivarAtravesar();
-
-                if (fichaSeleccionada.Posicion == new Point(columnas - 1, filas - 1))
-                    listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");
-
-                bool todasSalieron = juego.JugadorActual.Fichas
-                    .TrueForAll(f => f.Posicion == new Point(columnas - 1, filas - 1));
-
-                if (todasSalieron)
-                {
-                    MessageBox.Show($"¡Ganó {juego.JugadorActual.Nombre} con todas sus fichas!", "Victoria", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Application.Exit();
-                    return;
-                }
-
-                juego.NextTurno();
-                ActualizarUI();
             }
         }
 

@@ -15,8 +15,12 @@ namespace MythoMagic.Clases
 
         public void NextTurno()
         {
-            foreach (var ficha in JugadorActual.Fichas) ficha.ReducirCoolDown();
-            turnoActual = (turnoActual + 1) % Jugadores.Count;
+            foreach (var ficha in JugadorActual.Fichas)
+            {
+                ficha.ReducirCoolDown();
+                ficha.Velocidad = ficha.VelocidadBase;
+            }
+            turnoActual = (turnoActual + 1) % Jugadores.Count;      /*devuelve el resto asegura que el turno no se pase de la cantidad de fichas*/
         }
     }
 }

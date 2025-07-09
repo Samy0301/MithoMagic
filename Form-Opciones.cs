@@ -64,6 +64,7 @@ namespace MythoMagic
                 {
                     Nombre = "Atenea",
                     Velocidad = 5,
+                    VelocidadBase = 5,
                     CoolDownMax = 4,
                     Poder = "Turn box into a paralyzing trap",
                     Posicion = new Point(0, 0)
@@ -89,6 +90,7 @@ namespace MythoMagic
                 {
                     Nombre = "Hermes",
                     Velocidad = 5,
+                    VelocidadBase = 5,
                     CoolDownMax = 4,
                     Poder = "Multiply the speed by 2",
                     Posicion = new Point(0, 0)
@@ -114,6 +116,7 @@ namespace MythoMagic
                 {
                     Nombre = "Poseidon",
                     Velocidad = 4,
+                    VelocidadBase = 4,
                     CoolDownMax = 4,
                     Poder= "Add 3 to the speed ",
                     Posicion = new Point(0, 0)

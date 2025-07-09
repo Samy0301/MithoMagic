@@ -12,6 +12,7 @@ namespace MythoMagic.Clases
         public int Columna { get; }
         public TipoCasilla[,] Casillas { get; private set; }
         public Trampa[,] Trampas { get; private set; }
+
         private Random rand = new Random();
 
         public Tablero(int fila,int columna)
@@ -22,21 +23,7 @@ namespace MythoMagic.Clases
             Trampas = new Trampa[fila, columna];
             GenerarLaberinto();
         }
-
-        public bool EsValido(Point p) =>
-         p.X >= 0 && p.Y >= 0 && p.X < Columna && p.Y < Fila &&
-         Casillas[p.Y, p.X] == TipoCasilla.Camino;
-
-        public void ActivarTrampa(Point p, Fichas ficha)
-        {
-            Trampa t = Trampas[p.Y, p.X];
-            if (t != null)
-            {
-                t.Activar(ficha);
-                Trampas[p.Y, p.X] = null;
-            }
-        }
-
+       
         private void GenerarLaberinto()
         {
             int alto = Fila % 2 == 0 ? Fila - 1 : Fila;
@@ -46,12 +33,12 @@ namespace MythoMagic.Clases
             Trampas = new Trampa[Fila, Columna];
             bool[,] visitado = new bool[Fila, Columna];
 
-            // Todo es pared al inicio
+            /* inicializa todo como pared */
             for (int y = 0; y < Fila; y++)
                 for (int x = 0; x < Columna; x++)
                     Casillas[y, x] = TipoCasilla.Pared;
 
-            // DFS desde (0,0)
+            
             Stack<Point> pila = new Stack<Point>();
             Point inicio = new Point(0, 0);
             pila.Push(inicio);
@@ -95,7 +82,7 @@ namespace MythoMagic.Clases
             Casillas[0, 0] = TipoCasilla.Camino;
             Casillas[Fila - 1, Columna - 1] = TipoCasilla.Camino;
 
-            // Garantiza que haya conexión NATURAL, no directa
+           
             if (!HayCamino(0, 0, Columna - 1, Fila - 1))
                 ReintentarHastaConectar();
 
@@ -110,7 +97,8 @@ namespace MythoMagic.Clases
             {
                 GenerarLaberinto();
                 intentos++;
-            } while (!HayCamino(0, 0, Columna - 1, Fila - 1) && intentos < 20);
+            } 
+            while (!HayCamino(0, 0, Columna - 1, Fila - 1) && intentos < 20);
 
             if (intentos >= 20)
                 MessageBox.Show("No se pudo generar un laberinto conectando entrada y salida después de 20 intentos.");
@@ -134,6 +122,16 @@ namespace MythoMagic.Clases
                     Trampas[y, x] = trampa;
                     colocadas++;
                 }
+            }
+        }
+
+        public void ActivarTrampa(Point p, Fichas ficha)
+        {
+            Trampa t = Trampas[p.Y, p.X];
+            if (t != null)
+            {
+                t.Activar(ficha);
+                Trampas[p.Y, p.X] = null;
             }
         }
 
@@ -167,9 +165,11 @@ namespace MythoMagic.Clases
             return false;
         }
 
-        
-    }
+        public bool EsValido(Point p) =>
+        p.X >= 0 && p.Y >= 0 && p.X < Columna && p.Y < Fila &&
+        Casillas[p.Y, p.X] == TipoCasilla.Camino;          /*la casilla es valida si hay camino*/
 
+    }
     public enum TipoCasilla
     {
         Camino,

@@ -9,6 +9,6 @@ namespace MythoMagic.Clases
     public class Jugador
     {
         public string Nombre { get; set; }
-        public List<Fichas> Fichas { get; set; } = new List<Fichas>();
+        public List<Fichas> Fichas { get; set; } = new List<Fichas>();    /* se asignan en los forms opciones */
     }
 }

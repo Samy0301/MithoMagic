@@ -16,7 +16,7 @@ namespace MythoMagic.Clases
     {
         public override void Activar(Fichas ficha)
         {
-            ficha.Velocidad = Math.Max(1, ficha.Velocidad - 1);
+            ficha.Velocidad = 0;
         }
 
         public override Color color => Color.BlueViolet;

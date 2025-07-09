@@ -46,8 +46,9 @@ namespace MythoMagic
                 {
                     Nombre = "Afrodita",
                     Velocidad = 4,
+                    VelocidadBase = 4,
                     CoolDownMax = 3,
-                    Poder= "Remove the trap in front ",
+                    Poder = "Remove the trap in front ",
                     Posicion = new Point(0, 0)
                 });
                 buttonAfrodita.FlatStyle = FlatStyle.Flat;
@@ -71,6 +72,7 @@ namespace MythoMagic
                 {
                     Nombre = "Ares",
                     Velocidad = 5,
+                    VelocidadBase = 5,
                     CoolDownMax = 4,
                     Poder= "Immune to traps",
                     Posicion = new Point(0, 0)
@@ -96,6 +98,7 @@ namespace MythoMagic
                 {
                     Nombre = "Apolo",
                     Velocidad = 4,
+                    VelocidadBase = 4,
                     CoolDownMax = 3,
                     Poder= "Go through walls ",
                     Posicion = new Point(0, 0)
