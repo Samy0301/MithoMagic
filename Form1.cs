@@ -181,7 +181,7 @@ namespace MythoMagic
             movimientosRestantes--;
 
             if (fichaSeleccionada.Posicion == new Point(columnas - 1, filas - 1))
-                listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");   /* registra laficha que salio */
+                listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");   /* registra la ficha que salio */
 
             bool todasSalieron = juego.JugadorActual.Fichas
                 .TrueForAll(f => f.Posicion == new Point(columnas - 1, filas - 1));      /* todas las fichas del jugador salieron */

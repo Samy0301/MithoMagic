@@ -14,7 +14,6 @@ namespace MythoMagic.Clases
         public int CoolDownMax { get; set; }
         public int CoolDownActual { get; set; } = 0;
         public Point Posicion { get; set; }
-        public Jugador Dueño { get; set; }
         public bool PuedeUsarHabilidad => CoolDownActual == 0;
         public string Poder { get; set; }
         public virtual bool PoderActivo => false;
