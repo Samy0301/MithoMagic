@@ -26,8 +26,8 @@ namespace MythoMagic
         public Form1()
         {
             InitializeComponent();
-            this.DoubleBuffered = true;
-            this.ClientSize = new Size(columnas * tamañoCelda + 250, filas * tamañoCelda);
+            this.DoubleBuffered = true;                     /* asegura que no parpadee la pantalla */
+            this.ClientSize = new Size(columnas * tamañoCelda + 250, filas * tamañoCelda);    /* define area util para los controles */
             InicializarJuego();
             InicializarUI();
         }
@@ -87,7 +87,7 @@ namespace MythoMagic
             comboFichas.SelectedIndexChanged -= ComboFichas_SelectedIndexChanged;
             string seleccionAnterior = comboFichas.SelectedItem?.ToString();
 
-            comboFichas.Items.Clear();
+            comboFichas.Items.Clear();            /* limpia y añade las fichas que no hayan llegado al fina */
             foreach (var ficha in juego.JugadorActual.Fichas)
             {
                 if (ficha.Posicion != new Point(columnas - 1, filas - 1))
@@ -96,8 +96,8 @@ namespace MythoMagic
 
             if (comboFichas.Items.Count > 0)
             {
-                int index = comboFichas.Items.IndexOf(seleccionAnterior);
-                comboFichas.SelectedIndex = index >= 0 ? index : 0;
+                int index = comboFichas.Items.IndexOf(seleccionAnterior);       /* si la ficha seleccionada es  elegibre devuelve su index si no lo es -1 */
+                comboFichas.SelectedIndex = index >= 0 ? index : 0;             /* si no es seleccionable coje la primera por defecto */
                 fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre == comboFichas.SelectedItem.ToString());
                 movimientosRestantes = fichaSeleccionada?.Velocidad ?? 0;
             }
@@ -114,7 +114,7 @@ namespace MythoMagic
             Invalidate();
         }
 
-        private void ComboFichas_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboFichas_SelectedIndexChanged(object sender, EventArgs e)     /* seleccionar fichas en la combobox */
         {
             fichaSeleccionada = juego.JugadorActual.Fichas.Find(f => f.Nombre == comboFichas.SelectedItem.ToString());
             movimientosRestantes = fichaSeleccionada?.Velocidad ?? 0;
@@ -138,10 +138,10 @@ namespace MythoMagic
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (fichaSeleccionada == null || movimientosRestantes <= 0)
-                return base.ProcessCmdKey(ref msg, keyData);
+                return base.ProcessCmdKey(ref msg, keyData);                /* bloquea el movimiento */
 
             int dx = 0, dy = 0;
-            switch (keyData)
+            switch (keyData)         /* detecta la tecla y hacia donde se debe mover */
             {
                 case Keys.Up:dy = -1; break;
                 case Keys.Down: dy = 1; break;
@@ -151,20 +151,21 @@ namespace MythoMagic
             }
 
             Point nuevaPos = new Point(fichaSeleccionada.Posicion.X + dx, fichaSeleccionada.Posicion.Y + dy);
+
             bool puedeAtravesar = fichaSeleccionada is ApoloFicha ap && ap.PuedeAtravesarParedes;
 
             if (!tablero.EsValido(nuevaPos) && !puedeAtravesar)
-                return true;
+                return true;             /* si es pared y no es apolo no se mueve - si es pared y si es apolo se mueve */
 
             fichaSeleccionada.Posicion = nuevaPos;
 
             bool esInmune = fichaSeleccionada is AresFicha ar && ar.InmuneEsteTurno;
 
-            if (!esInmune)
+            if (!esInmune)         /* si no eres ares o no usa su habilidad */
             {
-                tablero.ActivarTrampa(nuevaPos, fichaSeleccionada);
+                tablero.ActivarTrampa(nuevaPos, fichaSeleccionada);  /* activa la trampa */
 
-                if (fichaSeleccionada.Velocidad <= 0)
+                if (fichaSeleccionada.Velocidad <= 0)   /* si la trampa deja velocidad en 0 cambia de turno */
                 {
                     movimientosRestantes = 0;
 
@@ -180,18 +181,18 @@ namespace MythoMagic
             movimientosRestantes--;
 
             if (fichaSeleccionada.Posicion == new Point(columnas - 1, filas - 1))
-                listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");
+                listBoxSalidas.Items.Add($"{juego.JugadorActual.Nombre} - {fichaSeleccionada.Nombre}");   /* registra laficha que salio */
 
             bool todasSalieron = juego.JugadorActual.Fichas
-                .TrueForAll(f => f.Posicion == new Point(columnas - 1, filas - 1));
+                .TrueForAll(f => f.Posicion == new Point(columnas - 1, filas - 1));      /* todas las fichas del jugador salieron */
 
             if (todasSalieron)
             {
-                MessageBox.Show($"Victory for {juego.JugadorActual.Nombre}");
+                MessageBox.Show($"Victory for {juego.JugadorActual.Nombre}");   /* si? ganaste */
                 return true;
             }
 
-            if (movimientosRestantes == 0)
+            if (movimientosRestantes == 0)   /* terminaste de moverte cambia el turno */
             {
                 if (fichaSeleccionada is ApoloFicha apf) apf.DesactivarAtravesar();
                 if (fichaSeleccionada is AresFicha af) af.ConsumirInmunidad();

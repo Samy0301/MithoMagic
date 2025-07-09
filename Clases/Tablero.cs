@@ -26,7 +26,7 @@ namespace MythoMagic.Clases
        
         private void GenerarLaberinto()
         {
-            int alto = Fila % 2 == 0 ? Fila - 1 : Fila;
+            int alto = Fila % 2 == 0 ? Fila - 1 : Fila;                   /* asegura numero impar de filas y columnas */
             int ancho = Columna % 2 == 0 ? Columna - 1 : Columna;
 
             Casillas = new TipoCasilla[Fila, Columna];
@@ -153,8 +153,7 @@ namespace MythoMagic.Clases
                 for (int i = 0; i < 4; i++)
                 {
                     int nx = p.X + dx[i], ny = p.Y + dy[i];
-                    if (nx >= 0 && ny >= 0 && nx < Columna && ny < Fila &&
-                        !visitado[ny, nx] && Casillas[ny, nx] == TipoCasilla.Camino)
+                    if (nx >= 0 && ny >= 0 && nx < Columna && ny < Fila && !visitado[ny, nx] && Casillas[ny, nx] == TipoCasilla.Camino)
                     {
                         visitado[ny, nx] = true;
                         cola.Enqueue(new Point(nx, ny));
@@ -165,9 +164,7 @@ namespace MythoMagic.Clases
             return false;
         }
 
-        public bool EsValido(Point p) =>
-        p.X >= 0 && p.Y >= 0 && p.X < Columna && p.Y < Fila &&
-        Casillas[p.Y, p.X] == TipoCasilla.Camino;          /*la casilla es valida si hay camino*/
+        public bool EsValido(Point p) => p.X >= 0 && p.Y >= 0 && p.X < Columna && p.Y < Fila && Casillas[p.Y, p.X] == TipoCasilla.Camino;   /*la casilla es valida si hay camino*/
 
     }
     public enum TipoCasilla
