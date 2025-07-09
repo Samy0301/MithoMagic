@@ -16,8 +16,6 @@ namespace MythoMagic.Clases
         public Point Posicion { get; set; }
         public bool PuedeUsarHabilidad => CoolDownActual == 0;
         public string Poder { get; set; }
-       
-
         public virtual Color ColorFicha => Color.Gray;
 
         /* son virtual para que cada sub clase implemente su  propiometodo*/
